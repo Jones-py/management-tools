@@ -1,13 +1,12 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  # PER = 4
+  PER = 4
   # GET /tasks
   # GET /tasks.json
   def index
     @q=Task.ransack(params[:q])
     @tasks= @q.result
-
-    # @tasks = Task.all.order("created_at DESC").page(params[:page]).per(PER)
+    @tasks = Task.all.order("created_at DESC").page(params[:page]).per(PER)
   end
 
   # GET /tasks/1
