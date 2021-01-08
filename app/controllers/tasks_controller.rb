@@ -1,10 +1,13 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  PER = 4
+  # PER = 4
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks=Task.page(params[:page]).per(PER)
+    @q=Task.ransack(params[:q])
+    @tasks= @q.result
+
+    # @tasks = Task.all.order("created_at DESC").page(params[:page]).per(PER)
   end
 
   # GET /tasks/1
@@ -69,6 +72,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:name, :details,:Deadline, :status, :RegistrationDate)
+      params.require(:task).permit(:name, :details,:Deadline, :status, :RegistrationDate, :priority)
     end
 end
